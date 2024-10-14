@@ -1,0 +1,6 @@
+services:
+  catalogdb:
+    image: postgres #naming the image using to run the postgres database for catalog api
+volumes:
+  postgres_catalog:
+
