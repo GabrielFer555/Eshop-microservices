@@ -7,27 +7,34 @@ namespace Catalog_API.Products.CreateProduct
 
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            //Create product entity from command object
-            //save to database
-            //return CreateProductResult
+			try
+			{
+				//Create product entity from command object
+				//save to database
+				//return CreateProductResult
 
-            var product = new Product
-            {
-                Name=command.Name,
-                Category=command.Category,
-                Description=command.Description,
-                ImageFile=command.ImageFile,
-                Price=command.Price,
-            };
-            //save to database
-            //...
-            session.Store(product); //store the database in the server 
-            await session.SaveChangesAsync(cancellationToken); //cancels the cancelation token
+				var product = new Product
+				{
+					Name = command.Name,
+					Category = command.Category,
+					Description = command.Description,
+					ImageFile = command.ImageFile,
+					Price = command.Price,
+				};
+				//save to database
+				//...
+				session.Store(product); //store the database in the server 
+				await session.SaveChangesAsync(cancellationToken); //cancels the cancelation token
 
 
-            //return Result
+				//return Result
 
-            return new CreateProductResult(product.Id);
+				return new CreateProductResult(product.Id);
+			}
+			catch (Exception ex) {
+				throw new Exception(ex.Message);
+			}
+            
         }
     }
 }

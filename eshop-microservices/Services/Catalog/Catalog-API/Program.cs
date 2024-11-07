@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCarter();
 builder.Services.AddMarten(config =>
 {
-    config.Connection(builder.Configuration.GetConnectionString("Database")!);
+    config.Connection(builder.Configuration.GetConnectionString("Database") ?? throw new Exception("Failed to connect"));
 }).UseLightweightSessions();
 builder.Services.AddMediatR(config =>
 {
