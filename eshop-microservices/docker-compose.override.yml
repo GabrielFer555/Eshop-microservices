@@ -14,3 +14,23 @@ services:
      - postgres_catalog:/var/lib/postgresql/data/
     extra_hosts:
     - "host.docker.internal:host-gateway"
+
+  catalog-api:
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=Kenway13+
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/Certificates/aspnetapp.pfx
+      - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=postgres;Include Error Detail =true
+    ports:
+      - "6000:8080"
+      - "6060:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+      - ./Services/Catalog/Catalog-API/Certificates/aspnetapp.pfx:/app/Certificates/aspnetapp.pfx
+    depends_on:
+      - catalogdb
+    
