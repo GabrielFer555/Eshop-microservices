@@ -15,7 +15,7 @@ namespace Catalog_API.Data
 				return;
 			}
 
-			//insert preconfigured data if it doesn´t insert 
+			//insert preconfigured data if it doesn´t exist 
 
 			session.Store(GetPreconfiguredProducts());
 			await session.SaveChangesAsync(cancellation);
