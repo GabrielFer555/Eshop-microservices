@@ -1,4 +1,6 @@
 ﻿
+using Discout.Grpc;
+
 namespace Basket_Api.Basket.StoreBasket
 {
 	public record StoreBasketCommand(ShoppingCart Cart):ICommand<StoreBasketResult>;
@@ -11,20 +13,24 @@ namespace Basket_Api.Basket.StoreBasket
 			RuleFor(x => x.Cart.Username).NotEmpty().WithMessage("Username is Required").When(x => x.Cart != null); ;
 		}
 	};
-	public class StoreBasketHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+	public class StoreBasketHandler(IBasketRepository _repository, DiscountProtoService.DiscountProtoServiceClient discountProtoService) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 	{
 		public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
 		{
-			var cart = new ShoppingCart
+			await DeductDiscount(command.Cart, cancellationToken);
+			var insertedCart = await _repository.StoreBasket(command.Cart, cancellationToken);
+
+			return new StoreBasketResult(insertedCart.Username);
+		}
+
+		public async Task DeductDiscount(ShoppingCart shoppingCart, CancellationToken cancellationToken)
+		{
+			foreach (var item in shoppingCart.Items)
 			{
-				Items = command.Cart.Items,
-				Username=command.Cart.Username,
-			};
-
-			//TODO INSERT OR UPDATE REGISTER USING MARTEN LIBRARY
-			//UPDATE CACHE ON REDIS
-
-			return new StoreBasketResult(command.Cart.Username);
+				var discount = await discountProtoService.GetDiscountAsync(new GetDiscountRequest() { ProductName = item.ProductName } );
+				item.Price -= discount.Amount;
+			}
+			
 		}
 	}
 }

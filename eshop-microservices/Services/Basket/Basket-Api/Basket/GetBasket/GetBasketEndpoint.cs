@@ -1,21 +1,24 @@
 ﻿
 
-
 namespace Basket_Api.Basket.GetBasket
 {
-	public record GetBasketQuery(string UserName):IQuery<GetBasketResult>;
-	public record GetBasketResult(ShoppingCart ShoppingCart);
-	public class GetBasketEndpoint : IQueryHandler<GetBasketQuery, GetBasketResult>
+	// public record GetBasketRequest()
+	public record GetBasketResponse(ShoppingCart ShoppingCart);
+	public class GetBasketEndpoint : ICarterModule
 	{
-		public async Task<GetBasketResult> Handle(GetBasketQuery query, CancellationToken cancellationToken)
+		public void AddRoutes(IEndpointRouteBuilder app)
 		{
-			/*
-			var shoppingCart = await session.LoadAsync<ShoppingCart>(query.Username, cancellationToken);
-			if(shoppingCart is null)
+			app.MapGet("/basket/{username}",async (string username, ISender sender) =>
 			{
-				throw new Exception();
-			}*/
-			return new GetBasketResult(new ShoppingCart("Daniel"));
+				var result = await sender.Send(new GetBasketQuery(username));
+				var response = result.Adapt<GetBasketResponse>();
+				return Results.Ok(response);
+			}).WithName("GetBasketById")
+			.WithDescription("Find Basket based of its Id")
+			.Produces<GetBasketResponse>(StatusCodes.Status200OK)
+			.ProducesProblem(StatusCodes.Status400BadRequest)
+			.ProducesProblem(StatusCodes.Status404NotFound)
+			.WithSummary("Get Basket by Id");
 		}
 	}
 }
