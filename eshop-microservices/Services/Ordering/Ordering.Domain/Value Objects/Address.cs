@@ -11,5 +11,24 @@ namespace Ordering.Domain.Value_Objects
         public string State { get; init; } = default!;
         public string City { get; init; } = default!;
         public string ZipCode { get; init; } = default!;
+
+        private Address(string firstName, string lastName, string emailAddress, string addressLine, string country, string state, string city, string zipCode ) { 
+            FirstName = firstName;
+            LastName = lastName;
+            EmailAddress = emailAddress;
+            AddressLine = addressLine;
+            Country = country;
+            State = state;
+            City = city;
+            ZipCode = zipCode;
+        }
+
+        public static Address Of(string firstName, string lastName, string emailAddress, string addressLine, string country, string state, string city, string zipCode)
+        {
+            ArgumentException.ThrowIfNullOrEmpty(addressLine);
+            ArgumentException.ThrowIfNullOrEmpty(country);
+
+            return new Address(firstName, lastName, emailAddress, addressLine, country, state, city, zipCode);
+        }
     }
 }

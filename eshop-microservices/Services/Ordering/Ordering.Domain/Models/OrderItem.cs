@@ -9,7 +9,7 @@ namespace Ordering.Domain.Models
 		public ProductId ProductId { get; private set; } = default!;
 		public int Quantity { get; private set; } = default!;
 
-		internal OrderItem(decimal price, Guid orderId, Guid productId, int quantity) // internal constructor
+		internal OrderItem( OrderId orderId, ProductId productId, decimal price, int quantity) // internal constructor
 		{
 			Id = OrderItemId.Of(Guid.NewGuid());
 			Price = price;
