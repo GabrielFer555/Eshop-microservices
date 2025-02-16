@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Ordering.Application
 {
 	public static class DependencyInjection
 	{
-		public static IServiceCollection AddApplicationServices(this IServiceCollection services) { 
+		public static IServiceCollection AddApplicationServices(this IServiceCollection services) {
 			//add mediatR
-
+			services.AddMediatR(opt =>
+			{
+				opt.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+			});
 			return services;
 		}
 	}

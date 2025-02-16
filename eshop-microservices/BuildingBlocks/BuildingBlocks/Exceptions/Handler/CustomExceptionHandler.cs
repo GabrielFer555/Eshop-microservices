@@ -53,7 +53,9 @@ namespace BuildingBlocks.Exceptions.Handler
 			{
 				problemsDetails.Extensions.Add("errors", validationException.Errors);
 			}
+			
 		 await context.Response.WriteAsJsonAsync(problemsDetails, cancellationToken);
+			
 			return true;
 		}
 

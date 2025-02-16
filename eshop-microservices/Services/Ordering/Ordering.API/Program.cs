@@ -1,11 +1,14 @@
 using Ordering.Infrastructure;
 using Ordering.Application;
 using Ordering.API;
+using Ordering.Infrastructure.Data.DatabaseExtensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
 //Infrastructure - EF Core
-builder.Services.AddApplicationServices().AddInfrastructureServices(builder.Configuration).AddApiServices();
+builder.Services.AddApplicationServices()
+	.AddInfrastructureServices(builder.Configuration)
+	.AddApiServices();
 
 //Application - MediatR
 // API - Carter, HealthChecks
@@ -13,5 +16,10 @@ builder.Services.AddApplicationServices().AddInfrastructureServices(builder.Conf
 var app = builder.Build();
 
 app.UseApiServices();
+await app.UseInfrastructureServices();
+if (app.Environment.IsDevelopment())
+{
+	await app.UseAutoMigration();
+}
 
 app.Run();
