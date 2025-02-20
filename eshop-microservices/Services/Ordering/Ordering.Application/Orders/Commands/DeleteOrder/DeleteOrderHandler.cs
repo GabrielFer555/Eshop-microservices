@@ -1,11 +1,17 @@
-﻿
-namespace Ordering.Application.Orders.Commands.DeleteOrder
+﻿namespace Ordering.Application.Orders.Commands.DeleteOrder
 {
-	public class DeleteOrderHandler : ICommandHandler<DeleteOrderCommand, DeleteOrderResult>
+    public class DeleteOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<DeleteOrderCommand, DeleteOrderResult>
 	{
-		public Task<DeleteOrderResult> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+		public async Task<DeleteOrderResult> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
 		{
-			throw new NotImplementedException();
+			var orderId = OrderId.Of(request.OrderId);
+			var order = await dbContext.Orders.FindAsync([orderId], cancellationToken);
+			if (order is null) throw new OrderNotFoundException(request.OrderId);
+			
+			dbContext.Orders.Remove(order);
+			await dbContext.SaveChangesAsync();
+
+			return new DeleteOrderResult(true);
 		}
 	}
 }

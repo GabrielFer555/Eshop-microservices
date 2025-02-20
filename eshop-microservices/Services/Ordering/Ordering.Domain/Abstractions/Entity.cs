@@ -8,7 +8,7 @@ namespace Ordering.Domain.Abstractions
 {
 	public abstract class Entity<T> : IEntity<T> // creating a base class for Entities to inherit from
 	{
-		public T Id { get; set; }
+		public T Id { get; set; } = default!;
 		public string? CreatedBy { get; set; }
 		public DateTime? CreatedAt { get; set; }
 		public DateTime? LastModified { get; set; }

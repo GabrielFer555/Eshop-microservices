@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 //Infrastructure - EF Core
 builder.Services.AddApplicationServices()
 	.AddInfrastructureServices(builder.Configuration)
-	.AddApiServices();
+	.AddApiServices(builder.Configuration);
 
 //Application - MediatR
 // API - Carter, HealthChecks

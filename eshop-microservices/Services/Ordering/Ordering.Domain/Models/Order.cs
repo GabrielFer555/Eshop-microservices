@@ -23,7 +23,9 @@ namespace Ordering.Domain.Models
 			private set {}
 		}
 
-		public static Order Create(OrderId id, CustomerId customerId, OrderName orderName, Address billingAddress, Address shippingAddress, Payment payment)
+        public OrderStatus Status { get; set; }
+
+        public static Order Create(OrderId id, CustomerId customerId, OrderName orderName, Address billingAddress, Address shippingAddress, Payment payment)
 		{
 			var order = new Order()
 			{
