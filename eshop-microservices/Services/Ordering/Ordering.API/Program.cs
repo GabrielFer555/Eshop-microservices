@@ -3,13 +3,11 @@ using Ordering.Application;
 using Ordering.API;
 using Ordering.Infrastructure.Data.DatabaseExtensions;
 
-
 var builder = WebApplication.CreateBuilder(args);
 //Infrastructure - EF Core
-builder.Services.AddApplicationServices()
+builder.Services.AddApplicationServices(builder.Configuration)
 	.AddInfrastructureServices(builder.Configuration)
 	.AddApiServices(builder.Configuration);
-
 //Application - MediatR
 // API - Carter, HealthChecks
 

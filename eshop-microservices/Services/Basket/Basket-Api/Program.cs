@@ -1,4 +1,5 @@
 
+using BuildingBlocks.Messaging.MassTransit;
 using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,7 +44,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 	options.Configuration = builder.Configuration.GetConnectionString("Redis");
 	options.InstanceName = "Basket";
 });
-
+builder.Services.AddMessageBroker(builder.Configuration);
 
 var app = builder.Build();
 app.MapCarter();

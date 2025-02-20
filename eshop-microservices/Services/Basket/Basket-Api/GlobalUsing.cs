@@ -10,4 +10,5 @@ global using FluentValidation;
 global using Basket_Api.Models;
 global using Basket_Api.Exceptions;
 global using Basket_Api.Data;
+global using Basket_Api.Dtos;
 global using Discout.Grpc;

@@ -6,6 +6,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.EntityFrameworkCore;
 
 global using FluentValidation;
+global using BuildingBlocks.Messaging.MassTransit;
 
 
 global using Ordering.Application.Dtos;
