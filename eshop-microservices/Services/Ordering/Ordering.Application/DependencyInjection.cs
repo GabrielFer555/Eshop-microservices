@@ -1,6 +1,5 @@
 ﻿using BuildingBlocks.Behaviours;
 using BuildingBlocks.Exceptions.Handler;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
@@ -23,6 +22,7 @@ namespace Ordering.Application
 				opt.AddOpenBehavior(typeof(ValidationBehaviour<,>));
 				opt.AddOpenBehavior(typeof(LoggingBehavior<,>));
 			});
+			services.AddFeatureManagement();
 			return services;
 		}
 	}
