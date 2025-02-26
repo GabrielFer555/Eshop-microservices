@@ -12,7 +12,7 @@ namespace Basket_Api.Basket.CheckoutBasket
         public CheckoutBasketCommandValidator()
         {
             RuleFor(x => x.BasketCheckout).NotEmpty().WithMessage("BasketCheckoutDto must be informed");   
-            RuleFor(x => x.BasketCheckout.UserName).NotEmpty().WithMessage("Username is required");   
+            RuleFor(x => x.BasketCheckout.UserName).NotNull().WithMessage("Username is required");   
         }
     }
     public class CheckoutBasketHandler(IBasketRepository repository, IPublishEndpoint publishEndpoint) : ICommandHandler<CheckoutBasketCommand, CheckoutBasketResult>

@@ -9,6 +9,7 @@ namespace Ordering.Application.Orders.EventHandlers.Integration
         public async Task Consume(ConsumeContext<BasketCheckoutEvent> context)
         {
             logger.LogInformation("Integration event handled: {integrationEvent}", context.Message.GetType().Name);
+
             var command = MapToCreateOrderCommand(context.Message);
             await sender.Send(command);
         }

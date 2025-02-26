@@ -3,6 +3,7 @@ using BuildingBlocks.Exceptions.Handler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.FeatureManagement;
 using System.Reflection;
 
 namespace Ordering.Application
@@ -14,6 +15,7 @@ namespace Ordering.Application
 			var executingAssembly = Assembly.GetExecutingAssembly();	
 			services.AddExceptionHandler<CustomExceptionHandler>();
 			services.AddMessageBroker(configuration, executingAssembly);
+			services.AddFeatureManagement(configuration);
 			//add mediatR
 			services.AddMediatR(opt =>
 			{
